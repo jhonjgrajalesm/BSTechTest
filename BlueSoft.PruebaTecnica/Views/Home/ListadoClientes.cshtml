@@ -1,0 +1,27 @@
+﻿@using BlueSoft.PruebaTecnica.Entities
+<h1>Listado de clientes por transaccion</h1>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Cuenta</th>
+            <th>Fecha</th>
+            <th>Valor</th>
+            <th>Tipo</th>
+            <th>Ubicacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (ViewBag.ListadoClientes as List<TransaccionCliente>))
+        {
+            <tr>
+                <td>@item.NombreCliente</td>
+                <td>@item.NroCuenta</td>
+                <td>@item.FechaTransaccion.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                <td>@item.Valor.ToString("C")</td>
+                <td>@(item.Consignacion ? "Consignacion" : "Retiro")</td>
+                <td>@item.Ubicacion</td>
+            </tr>
+        }
+    </tbody>
+</table>

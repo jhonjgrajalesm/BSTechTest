@@ -1,0 +1,59 @@
+﻿@using BlueSoft.PruebaTecnica.Controllers
+@using BlueSoft.PruebaTecnica.Entities
+@model TransactionModel
+@{
+    ViewData["Title"] = "Transaction Page";
+}
+
+<h2>Transaction</h2>
+
+<form method="post" asp-action="Transaction">
+    <div class="col-md-12">
+        <label for="amount">Origen:</label>
+        <select id="ahorrador" name="ahorradorIdOrigen" class="form-select" onchange="enableAcountsOrigin(this)">
+            <option value="">-- Seleccione un cliente origen --</option>
+            @foreach (var client in ViewBag.Clients as List<SelectListItem>)
+            {
+                <option value="@client.Value">@client.Text</option>
+            }
+        </select>
+        <select id="CuentaIdOrigen" name="CuentaIdOrigen" class="form-select">
+            <option value="">-- Seleccione cuenta --</option>
+            @foreach (var client in ViewBag.Cuentas as List<SelectListItem>)
+            {
+                <option class="CuentasOrigen @client.Group.Name" value="@client.Value">@client.Text</option>
+            }
+        </select>
+        <label for="amount">Amount:</label>
+        <input type="text" class="form-control" asp-for="Amount" name="Amount" placeholder="Enter amount" oninput="validateAmount(this)" />
+        <select id="Ubicacion" name="Ubicacion" class="form-select">
+            <option value="Medellin">Medellin</option>
+            <option value="Bogota">Bogota</option>
+        </select>
+        <span class="text-danger">@TempData["Message"]</span>
+        <br />
+    </div>
+    <div class="col-md-12">
+        <div class="btn-group" role="group" aria-label="Client actions">
+            <button type="submit" name="action" value="consignacion" class="btn btn-primary">Consignación</button>
+            <button type="submit" name="action" value="retiro" class="btn btn-secondary">Retiro</button>
+            <button type="submit" name="action" value="ListadoClientes" class="btn btn-info">Listado Clientes</button>
+            <button type="submit" name="action" value="ClientesRetiroFueraCiudad" class="btn btn-warning">Clientes Retiro Fuera Ciudad</button>
+        </div>
+    </div>       
+</form>
+
+@section Scripts {
+    <script>
+        function validateAmount(input) {
+            input.value = input.value.replace(/[^0-9.]/g, '');
+        }
+        function enableAcountsOrigin(select) {
+            $(".CuentasOrigen").hide();
+            $(".CuentasOrigen." + $(select).val()).show();
+        }
+
+        $(".CuentasOrigen").hide();
+        $(".CuentasDestino").hide();
+    </script>
+}
